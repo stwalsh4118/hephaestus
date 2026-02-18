@@ -2,10 +2,10 @@
 
 import type { DragEvent } from "react";
 
-import { CANVAS_DROP_DATA_KEY, PALETTE_ITEMS } from "@/constants/canvas";
-import type { NodeType } from "@/types/canvas";
+import { CANVAS_DROP_DATA_KEY, PALETTE_ITEMS, SERVICE_COLORS } from "@/constants/canvas";
+import type { ServiceType } from "@/types/canvas";
 
-const handleDragStart = (event: DragEvent<HTMLButtonElement>, type: NodeType) => {
+const handleDragStart = (event: DragEvent<HTMLButtonElement>, type: ServiceType) => {
   event.dataTransfer.setData(CANVAS_DROP_DATA_KEY, type);
   event.dataTransfer.effectAllowed = "copy";
 };
@@ -28,7 +28,10 @@ export function ComponentPalette() {
             className="group w-full cursor-grab rounded-lg border border-slate-300 bg-white p-3 text-left shadow-sm transition hover:border-slate-400 hover:shadow active:cursor-grabbing"
           >
             <div className="flex items-start gap-3">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-slate-900 text-xs font-bold tracking-wide text-white">
+              <span
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md text-xs font-bold tracking-wide text-white"
+                style={{ backgroundColor: SERVICE_COLORS[item.id] }}
+              >
                 {item.icon}
               </span>
 

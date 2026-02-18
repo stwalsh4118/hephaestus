@@ -53,4 +53,4 @@ The canvas (PBI-2) supports generic nodes, but users need specific service types
 
 ## Related Tasks
 
-_Tasks will be created when this PBI moves to Agreed via `/plan-pbi 3`._
+[View Tasks](./tasks.md)

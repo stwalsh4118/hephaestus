@@ -23,9 +23,9 @@ test("PBI-2 acceptance criteria pass end-to-end", async ({ page }) => {
   await expect(page.locator(".react-flow__minimap")).toBeVisible();
 
   const paletteItems = page.locator('aside button[draggable="true"]');
-  await expect(paletteItems).toHaveCount(4);
-  await expect(paletteItems.nth(0)).toContainText("Service");
-  await expect(paletteItems.nth(1)).toContainText("Worker");
+  await expect(paletteItems).toHaveCount(5);
+  await expect(paletteItems.nth(0)).toContainText("API Service");
+  await expect(paletteItems.nth(1)).toContainText("PostgreSQL");
 
   const canvasPane = page.locator(".react-flow__pane").first();
 
@@ -53,12 +53,15 @@ test("PBI-2 acceptance criteria pass end-to-end", async ({ page }) => {
     throw new Error("Node bounding box unavailable");
   }
 
-  await page.mouse.move(firstNodeBox.x + firstNodeBox.width / 2, firstNodeBox.y + firstNodeBox.height / 2);
+  await page.mouse.move(
+    firstNodeBox.x + firstNodeBox.width / 2,
+    firstNodeBox.y + firstNodeBox.height / 2
+  );
   await page.mouse.down();
   await page.mouse.move(
     firstNodeBox.x + firstNodeBox.width / 2 + 120,
     firstNodeBox.y + firstNodeBox.height / 2 + 80,
-    { steps: 10 },
+    { steps: 10 }
   );
   await page.mouse.up();
 
@@ -76,14 +79,14 @@ test("PBI-2 acceptance criteria pass end-to-end", async ({ page }) => {
   const viewport = page.locator(".react-flow__viewport");
 
   const initialViewportTransform = parseMatrix(
-    await viewport.evaluate((node) => getComputedStyle(node).transform),
+    await viewport.evaluate((node) => getComputedStyle(node).transform)
   );
 
   await page.mouse.wheel(0, -600);
   await page.waitForTimeout(200);
 
   const zoomedViewportTransform = parseMatrix(
-    await viewport.evaluate((node) => getComputedStyle(node).transform),
+    await viewport.evaluate((node) => getComputedStyle(node).transform)
   );
   expect(zoomedViewportTransform.scale).toBeGreaterThan(initialViewportTransform.scale);
 
@@ -93,7 +96,7 @@ test("PBI-2 acceptance criteria pass end-to-end", async ({ page }) => {
   await page.mouse.up();
 
   const pannedViewportTransform = parseMatrix(
-    await viewport.evaluate((node) => getComputedStyle(node).transform),
+    await viewport.evaluate((node) => getComputedStyle(node).transform)
   );
   expect(pannedViewportTransform.translateX).not.toBe(zoomedViewportTransform.translateX);
   expect(pannedViewportTransform.translateY).not.toBe(zoomedViewportTransform.translateY);
