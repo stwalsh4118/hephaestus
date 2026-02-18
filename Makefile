@@ -23,7 +23,7 @@ build: ## Build frontend and backend
 
 lint: ## Run frontend and backend linters
 	pnpm --dir $(FRONTEND_DIR) lint
-	cd $(BACKEND_DIR) && golangci-lint run ./...
+	cd $(BACKEND_DIR) && go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.10.1 run ./...
 
 test: ## Run frontend and backend tests
 	pnpm --dir $(FRONTEND_DIR) test

@@ -13,7 +13,7 @@ This document lists all tasks associated with PBI 1.
 | 1-3 | [Docker Compose Dev Environment](./1-3.md) | Done | Create Docker Compose configuration to run frontend and backend in containers with a shared network |
 | 1-4 | [Linting & Formatting Configuration](./1-4.md) | Done | Configure ESLint + Prettier for frontend and golangci-lint for backend |
 | 1-5 | [Makefile for Dev Commands](./1-5.md) | Done | Create a Makefile with common dev commands (dev, build, lint, test) |
-| 1-6 | [E2E CoS Test](./1-6.md) | Blocked | Verify all PBI-1 acceptance criteria are met end-to-end |
+| 1-6 | [E2E CoS Test](./1-6.md) | Done | Verify all PBI-1 acceptance criteria are met end-to-end |
 
 ## Dependency Graph
 
