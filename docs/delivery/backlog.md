@@ -6,7 +6,7 @@
 
 | ID | Actor | User Story | Status | Conditions of Satisfaction (CoS) |
 |----|-------|-----------|--------|----------------------------------|
-| 1 | Developer | As a developer, I want the project scaffolded with Next.js frontend, Go backend, and Docker dev environment so that I have a working foundation to build on | Agreed | Monorepo structure created; Next.js app runs on dev server; Go backend compiles and serves HTTP; Docker Compose dev environment starts all services; basic CI lint/build passes |
+| 1 | Developer | As a developer, I want the project scaffolded with Next.js frontend, Go backend, and Docker dev environment so that I have a working foundation to build on | InReview | Monorepo structure created; Next.js app runs on dev server; Go backend compiles and serves HTTP; Docker Compose dev environment starts all services; basic CI lint/build passes |
 | 2 | User | As a user, I want a visual canvas where I can drag, drop, and arrange system components so that I can design architectures visually | Proposed | React Flow canvas renders; nodes can be dragged from palette onto canvas; nodes can be repositioned; canvas supports zoom and pan; canvas state persists during session |
 | 3 | User | As a user, I want a library of service components (API, PostgreSQL, Redis, Nginx, RabbitMQ) with configuration panels so that I can define service-specific settings | Proposed | 5 service types available in palette with distinct visuals; clicking a node opens config panel; API service config supports endpoint definition (method, path, response schema); config changes persist to diagram state |
 | 4 | User | As a user, I want to draw connections between services and export the topology as JSON so that my diagram can be sent to the backend for deployment | Proposed | Edges can be drawn between nodes; connections have labels; diagram exports to JSON matching the PRD schema; JSON can be re-imported to restore diagram state |
@@ -42,3 +42,4 @@ _Items are ordered by priority (highest first)._
 |-----------|--------|------------|---------|------|
 | 20260218-005152 | ALL | Created | Initial backlog created from PRD decomposition | AI_Agent |
 | 20260218-011452 | 1 | Status Change | Proposed → Agreed. User approved for planning. | User |
+| 20260218-025856 | 1 | Status Change | Agreed → InReview. Tasks 1-1 through 1-5 completed; task 1-6 remains Blocked pending Docker-enabled AC4 verification. | AI_Agent |
