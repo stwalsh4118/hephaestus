@@ -8,13 +8,13 @@ This document lists all tasks associated with PBI 3.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 3-1 | [Service type definitions & constants](./3-1.md) | Proposed | Define 5 MVP service types, config interfaces, colour/icon constants, and updated palette items |
-| 3-2 | [Custom React Flow node components](./3-2.md) | Proposed | Create visually distinct custom node components for each service type and register with React Flow |
-| 3-3 | [Extend store with node selection & config](./3-3.md) | Proposed | Add selected node tracking, node config update action, and config data model to Zustand store |
-| 3-4 | [Configuration side panel](./3-4.md) | Proposed | Create sliding panel UI that opens on node selection and displays service info |
-| 3-5 | [Service-specific config forms](./3-5.md) | Proposed | Build dynamic config forms for PostgreSQL, Redis, Nginx, and RabbitMQ service types |
-| 3-6 | [API endpoint editor](./3-6.md) | Proposed | Build endpoint definition UI with add/remove rows, method dropdown, path input, and JSON schema editor |
-| 3-7 | [E2E CoS Test](./3-7.md) | Proposed | Automated end-to-end tests verifying all PBI-3 acceptance criteria |
+| 3-1 | [Service type definitions & constants](./3-1.md) | Review | Define 5 MVP service types, config interfaces, colour/icon constants, and updated palette items |
+| 3-2 | [Custom React Flow node components](./3-2.md) | Review | Create visually distinct custom node components for each service type and register with React Flow |
+| 3-3 | [Extend store with node selection & config](./3-3.md) | Review | Add selected node tracking, node config update action, and config data model to Zustand store |
+| 3-4 | [Configuration side panel](./3-4.md) | Review | Create sliding panel UI that opens on node selection and displays service info |
+| 3-5 | [Service-specific config forms](./3-5.md) | Review | Build dynamic config forms for PostgreSQL, Redis, Nginx, and RabbitMQ service types |
+| 3-6 | [API endpoint editor](./3-6.md) | Review | Build endpoint definition UI with add/remove rows, method dropdown, path input, and JSON schema editor |
+| 3-7 | [E2E CoS Test](./3-7.md) | Review | Automated end-to-end tests verifying all PBI-3 acceptance criteria |
 
 ## Dependency Graph
 
