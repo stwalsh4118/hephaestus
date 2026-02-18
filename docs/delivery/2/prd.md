@@ -53,4 +53,4 @@ Users need a visual workspace to design system architectures. Without a canvas t
 
 ## Related Tasks
 
-_Tasks will be created when this PBI moves to Agreed via `/plan-pbi 2`._
+[View Tasks](./tasks.md)
