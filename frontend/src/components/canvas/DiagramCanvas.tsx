@@ -23,7 +23,9 @@ import {
   PALETTE_ITEMS,
 } from "@/constants/canvas";
 import { useCanvasStore } from "@/store/canvas-store";
-import type { NodeType } from "@/types/canvas";
+import type { ServiceType } from "@/types/canvas";
+
+import { nodeTypes } from "./nodes";
 
 export function DiagramCanvas() {
   const { screenToFlowPosition } = useReactFlow();
@@ -34,6 +36,7 @@ export function DiagramCanvas() {
   const onEdgesChange = useCanvasStore((state) => state.onEdgesChange);
   const onViewportChange = useCanvasStore((state) => state.onViewportChange);
   const addNode = useCanvasStore((state) => state.addNode);
+  const selectNode = useCanvasStore((state) => state.selectNode);
 
   const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -44,7 +47,7 @@ export function DiagramCanvas() {
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      const droppedType = event.dataTransfer.getData(CANVAS_DROP_DATA_KEY) as NodeType;
+      const droppedType = event.dataTransfer.getData(CANVAS_DROP_DATA_KEY) as ServiceType;
       if (!droppedType) {
         return;
       }
@@ -68,7 +71,7 @@ export function DiagramCanvas() {
         },
       });
     },
-    [addNode, screenToFlowPosition],
+    [addNode, screenToFlowPosition]
   );
 
   return (
@@ -76,8 +79,11 @@ export function DiagramCanvas() {
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        nodeTypes={nodeTypes}
         onDrop={onDrop}
         onDragOver={onDragOver}
+        onNodeClick={(_, node) => selectNode(node.id)}
+        onPaneClick={() => selectNode(null)}
         viewport={viewport}
         defaultViewport={DEFAULT_CANVAS_VIEWPORT}
         onViewportChange={onViewportChange}

@@ -2,6 +2,7 @@
 
 import { ReactFlowProvider } from "@xyflow/react";
 
+import { ConfigPanel } from "@/components/config/ConfigPanel";
 import { ComponentPalette } from "@/components/palette/ComponentPalette";
 
 import { DiagramCanvas } from "./DiagramCanvas";
@@ -15,6 +16,8 @@ export function DiagramWorkspace() {
         <section className="flex flex-1 border-l border-slate-200 bg-white">
           <DiagramCanvas />
         </section>
+
+        <ConfigPanel />
       </main>
     </ReactFlowProvider>
   );
