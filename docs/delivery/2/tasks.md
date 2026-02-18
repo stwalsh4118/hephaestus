@@ -8,13 +8,13 @@ This document lists all tasks associated with PBI 2.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 2-1 | [Install React Flow and Zustand Dependencies](./2-1.md) | Proposed | Install @xyflow/react and zustand packages; create research guides with verified API usage |
-| 2-2 | [Define Canvas Types and Constants](./2-2.md) | Proposed | Define TypeScript interfaces for node data, palette items, and canvas constants |
-| 2-3 | [Create Zustand Canvas State Store](./2-3.md) | Proposed | Implement Zustand store for managing nodes, edges, and viewport state |
-| 2-4 | [Build Base React Flow Canvas Component](./2-4.md) | Proposed | Create React Flow canvas with background grid, minimap, zoom/pan controls |
-| 2-5 | [Build Component Palette Sidebar](./2-5.md) | Proposed | Create sidebar with draggable generic component items |
-| 2-6 | [Integrate Drag-and-Drop from Palette to Canvas](./2-6.md) | Proposed | Wire onDrop/onDragOver handlers to create nodes from palette drops |
-| 2-7 | [E2E CoS Test](./2-7.md) | Proposed | Verify all PBI-2 acceptance criteria end-to-end |
+| 2-1 | [Install React Flow and Zustand Dependencies](./2-1.md) | Done | Install @xyflow/react and zustand packages; create research guides with verified API usage |
+| 2-2 | [Define Canvas Types and Constants](./2-2.md) | Review | Define TypeScript interfaces for node data, palette items, and canvas constants |
+| 2-3 | [Create Zustand Canvas State Store](./2-3.md) | Review | Implement Zustand store for managing nodes, edges, and viewport state |
+| 2-4 | [Build Base React Flow Canvas Component](./2-4.md) | Review | Create React Flow canvas with background grid, minimap, zoom/pan controls |
+| 2-5 | [Build Component Palette Sidebar](./2-5.md) | Review | Create sidebar with draggable generic component items |
+| 2-6 | [Integrate Drag-and-Drop from Palette to Canvas](./2-6.md) | Review | Wire onDrop/onDragOver handlers to create nodes from palette drops |
+| 2-7 | [E2E CoS Test](./2-7.md) | Review | Verify all PBI-2 acceptance criteria end-to-end |
 
 ## Dependency Graph
 
