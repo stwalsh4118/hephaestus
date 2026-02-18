@@ -54,4 +54,4 @@ A system architecture diagram is not just nodes — the connections between serv
 
 ## Related Tasks
 
-_Tasks will be created when this PBI moves to Agreed via `/plan-pbi 4`._
+[View Tasks](./tasks.md)

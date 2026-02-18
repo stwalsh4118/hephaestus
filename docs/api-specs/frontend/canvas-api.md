@@ -49,7 +49,7 @@ interface RabbitMQConfig {
 type ServiceConfig = ApiServiceConfig | PostgresqlConfig | RedisConfig | NginxConfig | RabbitMQConfig;
 ```
 
-### Node Data
+### Node & Edge Data
 
 ```typescript
 interface CanvasNodeData extends Record<string, unknown> {
@@ -59,8 +59,12 @@ interface CanvasNodeData extends Record<string, unknown> {
   config?: ServiceConfig;
 }
 
+interface CanvasEdgeData extends Record<string, unknown> {
+  label: string;
+}
+
 type CanvasNode = Node<CanvasNodeData>;
-type CanvasEdge = Edge;
+type CanvasEdge = Edge<CanvasEdgeData>;
 type CanvasViewport = Viewport;
 ```
 
@@ -83,6 +87,8 @@ const SERVICE_ICONS: Record<ServiceType, string>;    // 2-3 char abbreviation pe
 const SERVICE_LABELS: Record<ServiceType, string>;   // display name per service
 const PALETTE_ITEMS: PaletteItem[];                  // 5 items: api-service, postgresql, redis, nginx, rabbitmq
 const CANVAS_DROP_DATA_KEY = "application/hephaestus-node-type";
+const EDGE_TYPE_LABELED = "labeled-edge";
+const EDGE_DEFAULT_LABEL = "";
 ```
 
 ## Canvas Store (`frontend/src/store/canvas-store.ts`)
@@ -108,6 +114,10 @@ addNode(input: { position: XYPosition; data: CanvasNodeData }): void
 selectNode(nodeId: string | null): void
 updateNodeLabel(nodeId: string, label: string): void
 updateNodeConfig(nodeId: string, config: ServiceConfig): void  // full replacement, not merge
+onConnect(connection: Connection): void              // creates edge, rejects duplicates (same source+target)
+updateEdgeLabel(edgeId: string, label: string): void
+removeEdge(edgeId: string): void
+loadDiagram(nodes: CanvasNode[], edges: CanvasEdge[]): void  // replaces entire diagram, resets selection
 ```
 
 ### Hooks
@@ -125,6 +135,54 @@ const nodeTypes: NodeTypes = { [NODE_TYPE_SERVICE]: ServiceNode };
 ```
 
 `ServiceNode` renders a coloured header (from `SERVICE_COLORS`), icon abbreviation, label, and source/target handles.
+
+## Custom Edge Component (`frontend/src/components/canvas/edges/`)
+
+```typescript
+const edgeTypes: EdgeTypes = { [EDGE_TYPE_LABELED]: LabeledEdge };
+```
+
+`LabeledEdge` renders a smooth step path with:
+- Directional arrowhead marker (`MarkerType.ArrowClosed`)
+- Editable label at midpoint (double-click to edit, Enter to commit, Escape to cancel)
+- Label hidden when empty
+
+## Topology Export/Import (`frontend/src/lib/topology.ts`)
+
+### DiagramJson Schema (PRD-conforming)
+
+```typescript
+interface DiagramJson {
+  id: string;           // UUID, generated on export
+  name: string;         // "Untitled Diagram"
+  nodes: DiagramJsonNode[];
+  edges: DiagramJsonEdge[];
+}
+
+interface DiagramJsonNode {
+  id: string;
+  type: string;         // ServiceType string (e.g., "api-service")
+  name: string;         // maps from CanvasNodeData.label
+  description: string;
+  position: { x: number; y: number };
+  config?: ServiceConfig;
+}
+
+interface DiagramJsonEdge {
+  id: string;
+  source: string;
+  target: string;
+  label: string;
+}
+```
+
+### Functions
+
+```typescript
+exportDiagram(nodes: CanvasNode[], edges: CanvasEdge[]): DiagramJson
+downloadDiagram(diagram: DiagramJson): void  // triggers browser file download
+importDiagram(json: unknown): { nodes: CanvasNode[]; edges: CanvasEdge[] }  // validates and maps
+```
 
 ## Config Panel (`frontend/src/components/config/ConfigPanel.tsx`)
 

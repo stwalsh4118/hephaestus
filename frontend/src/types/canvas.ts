@@ -70,6 +70,10 @@ export interface CanvasNodeData extends Record<string, unknown> {
   config?: ServiceConfig;
 }
 
+export interface CanvasEdgeData extends Record<string, unknown> {
+  label: string;
+}
+
 export type CanvasNode = Node<CanvasNodeData>;
-export type CanvasEdge = Edge;
+export type CanvasEdge = Edge<CanvasEdgeData>;
 export type CanvasViewport = Viewport;

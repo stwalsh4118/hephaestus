@@ -19,6 +19,9 @@ export const CANVAS_MIN_ZOOM = 0.5;
 export const CANVAS_MAX_ZOOM = 2;
 export const CANVAS_DROP_DATA_KEY = "application/hephaestus-node-type";
 
+export const EDGE_TYPE_LABELED = "labeled-edge";
+export const EDGE_DEFAULT_LABEL = "";
+
 export const SERVICE_COLORS: Record<ServiceType, string> = {
   [ST_API_SERVICE]: "#3b82f6",
   [ST_POSTGRESQL]: "#336791",
