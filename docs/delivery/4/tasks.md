@@ -8,12 +8,12 @@ This document lists all tasks associated with PBI 4.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 4-1 | [Edge Types, Constants & Store Extensions](./4-1.md) | Proposed | Define edge data types, edge-related constants, and extend the canvas store with onConnect handler, duplicate edge validation, and edge label update action |
-| 4-2 | [Custom Labeled Edge Component](./4-2.md) | Proposed | Create a custom React Flow edge component with directional arrows and editable labels (double-click to edit) |
-| 4-3 | [Canvas Edge Integration](./4-3.md) | Proposed | Wire edge creation, custom edge types, and connection handling into DiagramCanvas |
-| 4-4 | [Topology JSON Export](./4-4.md) | Proposed | Implement export function mapping React Flow state to PRD diagram JSON schema, with toolbar button and file download |
-| 4-5 | [Topology JSON Import](./4-5.md) | Proposed | Implement import function parsing PRD JSON schema to restore React Flow state, with toolbar button and file picker |
-| 4-6 | [E2E CoS Test](./4-6.md) | Proposed | End-to-end Playwright tests verifying all PBI-4 acceptance criteria |
+| 4-1 | [Edge Types, Constants & Store Extensions](./4-1.md) | Done | Define edge data types, edge-related constants, and extend the canvas store with onConnect handler, duplicate edge validation, and edge label update action |
+| 4-2 | [Custom Labeled Edge Component](./4-2.md) | Done | Create a custom React Flow edge component with directional arrows and editable labels (double-click to edit) |
+| 4-3 | [Canvas Edge Integration](./4-3.md) | Done | Wire edge creation, custom edge types, and connection handling into DiagramCanvas |
+| 4-4 | [Topology JSON Export](./4-4.md) | Done | Implement export function mapping React Flow state to PRD diagram JSON schema, with toolbar button and file download |
+| 4-5 | [Topology JSON Import](./4-5.md) | Done | Implement import function parsing PRD JSON schema to restore React Flow state, with toolbar button and file picker |
+| 4-6 | [E2E CoS Test](./4-6.md) | Done | End-to-end Playwright tests verifying all PBI-4 acceptance criteria |
 
 ## Dependency Graph
 
