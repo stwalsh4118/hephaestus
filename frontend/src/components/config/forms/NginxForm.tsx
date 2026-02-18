@@ -1,6 +1,7 @@
 "use client";
 
 import { useCanvasStore } from "@/store/canvas-store";
+import { ST_NGINX } from "@/types/canvas";
 import type { NginxConfig } from "@/types/canvas";
 
 interface NginxFormProps {
@@ -15,7 +16,7 @@ export function NginxForm({ nodeId, config }: NginxFormProps) {
 
   const updateServers = (newServers: string[]) => {
     updateNodeConfig(nodeId, {
-      type: "nginx",
+      type: ST_NGINX,
       upstreamServers: newServers,
     });
   };

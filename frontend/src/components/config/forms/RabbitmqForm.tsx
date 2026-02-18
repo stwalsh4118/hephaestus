@@ -1,6 +1,7 @@
 "use client";
 
 import { useCanvasStore } from "@/store/canvas-store";
+import { ST_RABBITMQ } from "@/types/canvas";
 import type { RabbitMQConfig } from "@/types/canvas";
 
 const DEFAULT_VHOST = "/";
@@ -24,7 +25,7 @@ export function RabbitmqForm({ nodeId, config }: RabbitmqFormProps) {
           value={vhost}
           onChange={(e) =>
             updateNodeConfig(nodeId, {
-              type: "rabbitmq",
+              type: ST_RABBITMQ,
               vhost: e.target.value,
             })
           }

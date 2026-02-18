@@ -1,6 +1,7 @@
 "use client";
 
 import { useCanvasStore } from "@/store/canvas-store";
+import { ST_POSTGRESQL } from "@/types/canvas";
 import type { PostgresqlConfig } from "@/types/canvas";
 
 const POSTGRESQL_VERSIONS = ["16", "15", "14"] as const;
@@ -20,7 +21,7 @@ export function PostgresqlForm({ nodeId, config }: PostgresqlFormProps) {
 
   const handleChange = (field: keyof Omit<PostgresqlConfig, "type">, value: string) => {
     updateNodeConfig(nodeId, {
-      type: "postgresql",
+      type: ST_POSTGRESQL,
       engine: field === "engine" ? value : engine,
       version: field === "version" ? value : version,
     });

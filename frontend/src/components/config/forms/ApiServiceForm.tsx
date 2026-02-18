@@ -1,6 +1,7 @@
 "use client";
 
 import { useCanvasStore } from "@/store/canvas-store";
+import { ST_API_SERVICE } from "@/types/canvas";
 import type { ApiServiceConfig, Endpoint, HttpMethod } from "@/types/canvas";
 
 const HTTP_METHODS: HttpMethod[] = ["GET", "POST", "PUT", "DELETE", "PATCH"];
@@ -25,7 +26,7 @@ export function ApiServiceForm({ nodeId, config }: ApiServiceFormProps) {
 
   const pushConfig = (newPort: number, newEndpoints: Endpoint[]) => {
     updateNodeConfig(nodeId, {
-      type: "api-service",
+      type: ST_API_SERVICE,
       port: newPort,
       endpoints: newEndpoints,
     });

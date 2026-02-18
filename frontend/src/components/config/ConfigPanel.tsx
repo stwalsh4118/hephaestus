@@ -2,6 +2,13 @@
 
 import { SERVICE_COLORS, SERVICE_ICONS, SERVICE_LABELS } from "@/constants/canvas";
 import { useCanvasStore, useSelectedNode } from "@/store/canvas-store";
+import {
+  ST_API_SERVICE,
+  ST_NGINX,
+  ST_POSTGRESQL,
+  ST_RABBITMQ,
+  ST_REDIS,
+} from "@/types/canvas";
 import type {
   ApiServiceConfig,
   NginxConfig,
@@ -29,15 +36,15 @@ function ServiceConfigForm({
   config?: unknown;
 }) {
   switch (serviceType) {
-    case "postgresql":
+    case ST_POSTGRESQL:
       return <PostgresqlForm nodeId={nodeId} config={config as PostgresqlConfig | undefined} />;
-    case "redis":
+    case ST_REDIS:
       return <RedisForm nodeId={nodeId} config={config as RedisConfig | undefined} />;
-    case "nginx":
+    case ST_NGINX:
       return <NginxForm nodeId={nodeId} config={config as NginxConfig | undefined} />;
-    case "rabbitmq":
+    case ST_RABBITMQ:
       return <RabbitmqForm nodeId={nodeId} config={config as RabbitMQConfig | undefined} />;
-    case "api-service":
+    case ST_API_SERVICE:
       return <ApiServiceForm nodeId={nodeId} config={config as ApiServiceConfig | undefined} />;
     default:
       return null;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCanvasStore } from "@/store/canvas-store";
+import { ST_REDIS } from "@/types/canvas";
 import type { RedisConfig } from "@/types/canvas";
 
 const EVICTION_POLICIES = ["noeviction", "allkeys-lru", "volatile-lru", "allkeys-random"] as const;
@@ -20,7 +21,7 @@ export function RedisForm({ nodeId, config }: RedisFormProps) {
 
   const handleChange = (field: keyof Omit<RedisConfig, "type">, value: string) => {
     updateNodeConfig(nodeId, {
-      type: "redis",
+      type: ST_REDIS,
       maxMemory: field === "maxMemory" ? value : maxMemory,
       evictionPolicy: field === "evictionPolicy" ? value : evictionPolicy,
     });
