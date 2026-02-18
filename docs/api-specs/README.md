@@ -5,7 +5,7 @@ and ensure consistency across the project.
 
 ## Available Specs
 
-_No specs yet. Specs will be created as PBIs are implemented._
+- `docs/api-specs/backend/backend-api.md` - Backend HTTP service endpoints and runtime configuration.
 
 ## Organization
 
