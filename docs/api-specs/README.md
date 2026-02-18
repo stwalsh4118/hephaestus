@@ -6,6 +6,7 @@ and ensure consistency across the project.
 ## Available Specs
 
 - `docs/api-specs/backend/backend-api.md` - Backend HTTP service endpoints and runtime configuration.
+- `docs/api-specs/frontend/canvas-api.md` - Frontend canvas types, store API, custom nodes, config panel, and service config forms.
 
 ## Organization
 
