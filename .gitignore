@@ -4,3 +4,7 @@
 
 # Frontend local package cache
 /frontend/.pnpm-store/
+
+# Frontend Playwright run artifacts
+/frontend/test-results/
+/frontend/playwright-report/
