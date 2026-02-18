@@ -20,11 +20,14 @@ import {
   CANVAS_MAX_ZOOM,
   CANVAS_MIN_ZOOM,
   DEFAULT_CANVAS_VIEWPORT,
+  EDGE_DEFAULT_LABEL,
+  EDGE_TYPE_LABELED,
   PALETTE_ITEMS,
 } from "@/constants/canvas";
 import { useCanvasStore } from "@/store/canvas-store";
 import type { ServiceType } from "@/types/canvas";
 
+import { edgeTypes } from "./edges";
 import { nodeTypes } from "./nodes";
 
 export function DiagramCanvas() {
@@ -37,6 +40,7 @@ export function DiagramCanvas() {
   const onViewportChange = useCanvasStore((state) => state.onViewportChange);
   const addNode = useCanvasStore((state) => state.addNode);
   const selectNode = useCanvasStore((state) => state.selectNode);
+  const onConnect = useCanvasStore((state) => state.onConnect);
 
   const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -80,6 +84,12 @@ export function DiagramCanvas() {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        onConnect={onConnect}
+        defaultEdgeOptions={{
+          type: EDGE_TYPE_LABELED,
+          data: { label: EDGE_DEFAULT_LABEL },
+        }}
         onDrop={onDrop}
         onDragOver={onDragOver}
         onNodeClick={(_, node) => selectNode(node.id)}
