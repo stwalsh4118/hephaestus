@@ -39,32 +39,32 @@ export const SERVICE_LABELS: Record<ServiceType, string> = {
 export const PALETTE_ITEMS: PaletteItem[] = [
   {
     id: "api-service",
-    label: "API Service",
-    icon: "API",
+    label: SERVICE_LABELS["api-service"],
+    icon: SERVICE_ICONS["api-service"],
     description: "RESTful API service with configurable endpoints",
   },
   {
     id: "postgresql",
-    label: "PostgreSQL",
-    icon: "PG",
+    label: SERVICE_LABELS["postgresql"],
+    icon: SERVICE_ICONS["postgresql"],
     description: "Relational database with SQL support",
   },
   {
     id: "redis",
-    label: "Redis",
-    icon: "RD",
+    label: SERVICE_LABELS["redis"],
+    icon: SERVICE_ICONS["redis"],
     description: "In-memory data store and cache",
   },
   {
     id: "nginx",
-    label: "Nginx",
-    icon: "NX",
+    label: SERVICE_LABELS["nginx"],
+    icon: SERVICE_ICONS["nginx"],
     description: "Reverse proxy and load balancer",
   },
   {
     id: "rabbitmq",
-    label: "RabbitMQ",
-    icon: "MQ",
+    label: SERVICE_LABELS["rabbitmq"],
+    icon: SERVICE_ICONS["rabbitmq"],
     description: "Message broker for async communication",
   },
 ];

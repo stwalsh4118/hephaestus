@@ -3,6 +3,7 @@ import {
   applyNodeChanges,
   type EdgeChange,
   type NodeChange,
+  type NodeRemoveChange,
   type XYPosition,
 } from "@xyflow/react";
 import { create } from "zustand";
@@ -56,7 +57,9 @@ export const useCanvasStore = create<CanvasStore>()((set) => ({
   onNodesChange: (changes) => {
     set((state) => {
       const newNodes = applyNodeChanges(changes, state.nodes);
-      const removedIds = changes.filter((c) => c.type === "remove").map((c) => c.id);
+      const removedIds = changes
+        .filter((c): c is NodeRemoveChange => c.type === "remove")
+        .map((c) => c.id);
       const shouldClearSelection =
         state.selectedNodeId !== null && removedIds.includes(state.selectedNodeId);
       return {

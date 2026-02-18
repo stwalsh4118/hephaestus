@@ -33,7 +33,7 @@ export function ApiServiceForm({ nodeId, config }: ApiServiceFormProps) {
 
   const handlePortChange = (value: string) => {
     const parsed = Number.parseInt(value, 10);
-    if (!Number.isNaN(parsed)) {
+    if (!Number.isNaN(parsed) && parsed >= 1 && parsed <= 65535) {
       pushConfig(parsed, endpoints);
     }
   };
@@ -64,6 +64,9 @@ export function ApiServiceForm({ nodeId, config }: ApiServiceFormProps) {
           type="number"
           value={port}
           onChange={(e) => handlePortChange(e.target.value)}
+          min={1}
+          max={65535}
+          step={1}
           className="mt-1 w-full rounded border border-slate-300 px-2 py-1.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
