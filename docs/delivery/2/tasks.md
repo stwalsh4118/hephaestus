@@ -12,7 +12,7 @@ This document lists all tasks associated with PBI 2.
 | 2-2 | [Define Canvas Types and Constants](./2-2.md) | Done | Define TypeScript interfaces for node data, palette items, and canvas constants |
 | 2-3 | [Create Zustand Canvas State Store](./2-3.md) | Done | Implement Zustand store for managing nodes, edges, and viewport state |
 | 2-4 | [Build Base React Flow Canvas Component](./2-4.md) | Done | Create React Flow canvas with background grid, minimap, zoom/pan controls |
-| 2-5 | [Build Component Palette Sidebar](./2-5.md) | Review | Create sidebar with draggable generic component items |
+| 2-5 | [Build Component Palette Sidebar](./2-5.md) | Done | Create sidebar with draggable generic component items |
 | 2-6 | [Integrate Drag-and-Drop from Palette to Canvas](./2-6.md) | Review | Wire onDrop/onDragOver handlers to create nodes from palette drops |
 | 2-7 | [E2E CoS Test](./2-7.md) | Review | Verify all PBI-2 acceptance criteria end-to-end |
 
