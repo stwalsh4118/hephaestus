@@ -14,6 +14,7 @@ This document lists all tasks associated with PBI 1.
 | 1-4 | [Linting & Formatting Configuration](./1-4.md) | Done | Configure ESLint + Prettier for frontend and golangci-lint for backend |
 | 1-5 | [Makefile for Dev Commands](./1-5.md) | Done | Create a Makefile with common dev commands (dev, build, lint, test) |
 | 1-6 | [E2E CoS Test](./1-6.md) | Done | Verify all PBI-1 acceptance criteria are met end-to-end |
+| 1-7 | [Ignore Local Build Artifacts](./1-7.md) | Done | Add repository ignore rules for local/generated artifacts that should not be committed |
 
 ## Dependency Graph
 
@@ -27,6 +28,7 @@ This document lists all tasks associated with PBI 1.
 1-3 ──► 1-5 (Makefile — wraps docker/build/lint commands)
 1-4 ──► 1-5 (Makefile — wraps lint commands)
 1-5 ──► 1-6 (E2E CoS Test — verifies everything)
+1-6 ──► 1-7 (Ignore cleanup — prevents local artifact noise after verification)
 ```
 
 ## Implementation Order
@@ -37,6 +39,7 @@ This document lists all tasks associated with PBI 1.
 4. **1-4** — Linting & formatting (depends on 1-1, 1-2 — needs source files to lint)
 5. **1-5** — Makefile (depends on 1-3, 1-4 — wraps all commands)
 6. **1-6** — E2E CoS Test (depends on all above — final validation)
+7. **1-7** — Ignore local artifacts (depends on 1-6 verification outputs)
 
 ## Complexity Ratings
 
@@ -48,6 +51,7 @@ This document lists all tasks associated with PBI 1.
 | 1-4 | Simple | ESLint, Prettier, golangci-lint (well-known, no guides needed) |
 | 1-5 | Simple | None |
 | 1-6 | Simple | None |
+| 1-7 | Simple | None |
 
 ## External Package Research Required
 

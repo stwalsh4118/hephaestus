@@ -1,0 +1,6 @@
+# Backend local build artifacts
+/backend/server
+/backend/tmp/
+
+# Frontend local package cache
+/frontend/.pnpm-store/
