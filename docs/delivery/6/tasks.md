@@ -8,7 +8,7 @@ This document lists all tasks associated with PBI 6.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 6-1 | [Docker SDK Integration & Client Wrapper](./6-1.md) | Review | Add Docker SDK dependency, create research guide, and implement client wrapper with connection handling |
+| 6-1 | [Docker SDK Integration & Client Wrapper](./6-1.md) | Done | Add Docker SDK dependency, create research guide, and implement client wrapper with connection handling |
 | 6-2 | [Container Types, Constants & Orchestrator Interface](./6-2.md) | Review | Define container models, status types, naming constants, and the orchestrator interface contract |
 | 6-3 | [Docker Network Management](./6-3.md) | Review | Create and manage a shared Docker bridge network for all simulator containers |
 | 6-4 | [Container Lifecycle Management](./6-4.md) | Review | Implement container create, start, stop, remove, list, and inspect operations |
