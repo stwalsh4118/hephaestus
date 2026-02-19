@@ -52,4 +52,4 @@ N/A — backend infrastructure PBI.
 
 ## Related Tasks
 
-_Tasks will be created when this PBI moves to Agreed via `/plan-pbi 6`._
+[View Tasks](./tasks.md)
