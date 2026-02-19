@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/stwalsh4118/hephaestus/backend/internal/docker"
 	"github.com/stwalsh4118/hephaestus/backend/internal/handler"
 	"github.com/stwalsh4118/hephaestus/backend/internal/middleware"
 	"github.com/stwalsh4118/hephaestus/backend/internal/storage"
@@ -36,6 +37,20 @@ func main() {
 	store, err := storage.NewFileStore("")
 	if err != nil {
 		log.Fatalf("failed to initialize storage: %v", err)
+	}
+
+	// Initialize Docker orchestrator (non-fatal if Docker is unavailable).
+	// pollingCtx controls any background health polling; cancel it before teardown.
+	pollingCtx, cancelPolling := context.WithCancel(context.Background())
+	_ = pollingCtx // will be passed to StartHealthPolling when deploy flow is wired
+
+	dockerClient, dockerErr := docker.NewClient()
+	var orchestrator *docker.DockerOrchestrator
+	if dockerErr != nil {
+		log.Printf("docker client unavailable: %v (orchestration features disabled)", dockerErr)
+	} else {
+		orchestrator = docker.NewDockerOrchestrator(dockerClient)
+		log.Println("docker orchestrator initialized")
 	}
 
 	mux := http.NewServeMux()
@@ -79,6 +94,24 @@ func main() {
 
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatalf("graceful shutdown failed: %v", err)
+	}
+
+	// Cancel health polling before teardown to stop background goroutines.
+	cancelPolling()
+
+	// Teardown Docker resources after HTTP server has drained.
+	if orchestrator != nil {
+		log.Println("tearing down docker resources...")
+		if err := orchestrator.TeardownAll(ctx); err != nil {
+			log.Printf("docker teardown errors: %v", err)
+		} else {
+			log.Println("docker teardown complete")
+		}
+		if dockerClient != nil {
+			if err := dockerClient.Close(); err != nil {
+				log.Printf("failed to close docker client: %v", err)
+			}
+		}
 	}
 
 	log.Println("server stopped")
