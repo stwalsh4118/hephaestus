@@ -8,10 +8,10 @@ This document lists all tasks associated with PBI 8.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 8-1 | [Add Cmd field to ContainerConfig](./8-1.md) | Proposed | Add command/args support to ContainerConfig and update Docker engine to pass Cmd when creating containers |
-| 8-2 | [OpenAPI 3.0 Spec Generator](./8-2.md) | Proposed | Create a Go package that converts endpoint definitions into valid OpenAPI 3.0.0 JSON specs |
-| 8-3 | [Integrate Spec Generation into API Service Template](./8-3.md) | Proposed | Update APIServiceTemplate to parse endpoint config, generate OpenAPI spec, write to disk, and mount into Prism container |
-| 8-4 | [E2E CoS Test](./8-4.md) | Proposed | End-to-end verification of all PBI-8 acceptance criteria with running Prism containers |
+| 8-1 | [Add Cmd field to ContainerConfig](./8-1.md) | Review | Add command/args support to ContainerConfig and update Docker engine to pass Cmd when creating containers |
+| 8-2 | [OpenAPI 3.0 Spec Generator](./8-2.md) | Review | Create a Go package that converts endpoint definitions into valid OpenAPI 3.0.0 JSON specs |
+| 8-3 | [Integrate Spec Generation into API Service Template](./8-3.md) | Review | Update APIServiceTemplate to parse endpoint config, generate OpenAPI spec, write to disk, and mount into Prism container |
+| 8-4 | [E2E CoS Test](./8-4.md) | Review | End-to-end verification of all PBI-8 acceptance criteria with running Prism containers |
 
 ## Dependency Graph
 
