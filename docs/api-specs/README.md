@@ -7,6 +7,7 @@ and ensure consistency across the project.
 
 - `docs/api-specs/backend/backend-api.md` - Backend HTTP service endpoints and runtime configuration.
 - `docs/api-specs/frontend/canvas-api.md` - Frontend canvas types, store API, custom nodes, config panel, and service config forms.
+- `docs/api-specs/docker/docker-api.md` - Docker orchestration engine types, interfaces, and container lifecycle management.
 
 ## Organization
 
