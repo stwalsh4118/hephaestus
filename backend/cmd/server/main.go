@@ -9,6 +9,10 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/stwalsh4118/hephaestus/backend/internal/handler"
+	"github.com/stwalsh4118/hephaestus/backend/internal/middleware"
+	"github.com/stwalsh4118/hephaestus/backend/internal/storage"
 )
 
 const (
@@ -29,12 +33,23 @@ func main() {
 		port = defaultPort
 	}
 
+	store, err := storage.NewFileStore("")
+	if err != nil {
+		log.Fatalf("failed to initialize storage: %v", err)
+	}
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health", healthHandler)
 
+	diagramHandler := handler.NewDiagramHandler(store)
+	diagramHandler.RegisterRoutes(mux)
+
+	wsHandler := handler.NewWebSocketHandler()
+	wsHandler.RegisterRoutes(mux)
+
 	server := &http.Server{
 		Addr:         ":" + port,
-		Handler:      mux,
+		Handler:      middleware.CORS()(mux),
 		ReadTimeout:  readTimeout,
 		WriteTimeout: writeTimeout,
 		IdleTimeout:  idleTimeout,
