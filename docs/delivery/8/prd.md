@@ -52,4 +52,4 @@ N/A — backend PBI, though the endpoint definitions come from PBI-3's configura
 
 ## Related Tasks
 
-_Tasks will be created when this PBI moves to Agreed via `/plan-pbi 8`._
+[View Tasks](./tasks.md)
