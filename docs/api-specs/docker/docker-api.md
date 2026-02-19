@@ -75,3 +75,96 @@ func NewDockerOrchestrator(c *Client) *DockerOrchestrator
 ```go
 func (o *DockerOrchestrator) StartHealthPolling(ctx context.Context, interval time.Duration, callback HealthStatusCallback)
 ```
+
+---
+
+## Service-to-Container Mapping
+
+Package: `backend/internal/docker/templates`
+
+### Interfaces
+
+```go
+type ContainerTemplate interface {
+    Build(node model.DiagramNode, hostPort string, hostPorts ...string) (docker.ContainerConfig, error)
+}
+```
+
+### Types
+
+```go
+type TemplateRegistry map[string]ContainerTemplate
+
+type PortAllocator struct { /* thread-safe port allocator */ }
+
+type Translator struct { /* not safe for concurrent use */ }
+```
+
+### Image Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `ImageAPIService` | `"stoplight/prism:latest"` | API Service (Prism mock server) |
+| `ImagePostgreSQL` | `"postgres:16"` | PostgreSQL database |
+| `ImageRedis` | `"redis:7"` | Redis cache |
+| `ImageNginx` | `"nginx:latest"` | Nginx web server |
+| `ImageRabbitMQ` | `"rabbitmq:3-management"` | RabbitMQ message broker |
+
+### Port Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `PortAPIService` | `"4010"` | Prism default port |
+| `PortPostgreSQL` | `"5432"` | PostgreSQL default port |
+| `PortRedis` | `"6379"` | Redis default port |
+| `PortNginx` | `"80"` | Nginx HTTP port |
+| `PortRabbitMQAMQP` | `"5672"` | RabbitMQ AMQP port |
+| `PortRabbitMQManagement` | `"15672"` | RabbitMQ management UI port |
+| `DefaultMinPort` | `10000` | Host port allocation range start |
+| `DefaultMaxPort` | `19999` | Host port allocation range end |
+
+### Priority Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `PriorityInfrastructure` | `0` | postgresql, redis, rabbitmq (start first) |
+| `PriorityApplication` | `1` | nginx, api-service |
+
+### Constructors
+
+```go
+func NewRegistry() TemplateRegistry
+func NewPortAllocator(minPort, maxPort int) *PortAllocator
+func NewTranslator() *Translator
+func DefaultPostgresEnv() map[string]string
+```
+
+### Template Implementations
+
+| Service Type | Struct | File |
+|-------------|--------|------|
+| `api-service` | `APIServiceTemplate` | `api_service.go` |
+| `postgresql` | `PostgreSQLTemplate` | `postgresql.go` |
+| `redis` | `RedisTemplate` | `redis.go` |
+| `nginx` | `NginxTemplate` | `nginx.go` |
+| `rabbitmq` | `RabbitMQTemplate` | `rabbitmq.go` |
+
+### PortAllocator Methods
+
+```go
+func (a *PortAllocator) Allocate() (string, error)
+func (a *PortAllocator) AllocateN(n int) ([]string, error)  // atomic with rollback
+func (a *PortAllocator) Reset()
+```
+
+### Dependency Resolver
+
+```go
+func ResolveDependencies(nodes []model.DiagramNode, edges []model.DiagramEdge) ([]string, error)
+```
+
+### Translator Method
+
+```go
+func (t *Translator) Translate(diagram model.Diagram) ([]docker.ContainerConfig, error)
+```
