@@ -181,6 +181,7 @@ func (o *DockerOrchestrator) CreateContainer(ctx context.Context, cfg ContainerC
 	resp, err := o.api.ContainerCreate(ctx,
 		&container.Config{
 			Image:        cfg.Image,
+			Cmd:          cfg.Cmd,
 			Env:          env,
 			ExposedPorts: exposedPorts,
 			Hostname:     hostname,

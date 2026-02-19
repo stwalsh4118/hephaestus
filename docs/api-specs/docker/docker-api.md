@@ -34,6 +34,7 @@ type Orchestrator interface {
 type ContainerConfig struct {
     Image       string            `json:"image"`
     Name        string            `json:"name"`
+    Cmd         []string          `json:"cmd,omitempty"`         // override image CMD
     Env         map[string]string `json:"env,omitempty"`
     Ports       map[string]string `json:"ports,omitempty"`       // host → container
     Volumes     map[string]string `json:"volumes,omitempty"`     // host → container
