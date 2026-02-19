@@ -10,7 +10,7 @@ This document lists all tasks associated with PBI 6.
 | :------ | :--- | :----- | :---------- |
 | 6-1 | [Docker SDK Integration & Client Wrapper](./6-1.md) | Done | Add Docker SDK dependency, create research guide, and implement client wrapper with connection handling |
 | 6-2 | [Container Types, Constants & Orchestrator Interface](./6-2.md) | Done | Define container models, status types, naming constants, and the orchestrator interface contract |
-| 6-3 | [Docker Network Management](./6-3.md) | Review | Create and manage a shared Docker bridge network for all simulator containers |
+| 6-3 | [Docker Network Management](./6-3.md) | Done | Create and manage a shared Docker bridge network for all simulator containers |
 | 6-4 | [Container Lifecycle Management](./6-4.md) | Review | Implement container create, start, stop, remove, list, and inspect operations |
 | 6-5 | [Health Check & Status Reporting](./6-5.md) | Review | Implement periodic container health check polling and status reporting |
 | 6-6 | [Teardown & Graceful Cleanup](./6-6.md) | Review | Implement full teardown of managed containers and network, wired into server shutdown |
