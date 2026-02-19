@@ -8,13 +8,13 @@ This document lists all tasks associated with PBI 7.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 7-1 | [Container Template Types and Registry](./7-1.md) | Proposed | Define ContainerTemplate interface, TemplateRegistry, and image/port constants for all 5 service types |
-| 7-2 | [Service Container Templates](./7-2.md) | Proposed | Implement template builders for all 5 service types (PostgreSQL, Redis, Nginx, RabbitMQ, API Service) |
-| 7-3 | [Port Allocator](./7-3.md) | Proposed | Dynamic host port allocation with conflict avoidance |
-| 7-4 | [Dependency Resolver](./7-4.md) | Proposed | Build dependency graph from diagram edges and produce topological startup order |
-| 7-5 | [Diagram-to-Container Translator](./7-5.md) | Proposed | Orchestrate templates, port allocator, and dependency resolver to translate a Diagram into ordered ContainerConfigs |
-| 7-6 | [API Specification Update](./7-6.md) | Proposed | Update docker-api.md with new types, interfaces, and constants from PBI 7 |
-| 7-7 | [E2E CoS Test](./7-7.md) | Proposed | End-to-end verification of all PBI 7 acceptance criteria |
+| 7-1 | [Container Template Types and Registry](./7-1.md) | Review | Define ContainerTemplate interface, TemplateRegistry, and image/port constants for all 5 service types |
+| 7-2 | [Service Container Templates](./7-2.md) | Review | Implement template builders for all 5 service types (PostgreSQL, Redis, Nginx, RabbitMQ, API Service) |
+| 7-3 | [Port Allocator](./7-3.md) | Review | Dynamic host port allocation with conflict avoidance |
+| 7-4 | [Dependency Resolver](./7-4.md) | Review | Build dependency graph from diagram edges and produce topological startup order |
+| 7-5 | [Diagram-to-Container Translator](./7-5.md) | Review | Orchestrate templates, port allocator, and dependency resolver to translate a Diagram into ordered ContainerConfigs |
+| 7-6 | [API Specification Update](./7-6.md) | Review | Update docker-api.md with new types, interfaces, and constants from PBI 7 |
+| 7-7 | [E2E CoS Test](./7-7.md) | Review | End-to-end verification of all PBI 7 acceptance criteria |
 
 ## Dependency Graph
 
