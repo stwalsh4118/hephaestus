@@ -4,24 +4,42 @@ import { Handle, Position } from "@xyflow/react";
 import type { NodeProps } from "@xyflow/react";
 
 import { SERVICE_COLORS, SERVICE_ICONS, SERVICE_LABELS } from "@/constants/canvas";
+import { useDeployStore } from "@/store/deploy-store";
 import type { CanvasNode } from "@/types/canvas";
+import type { ContainerStatus } from "@/types/deploy";
 
 const FALLBACK_COLOR = "#64748b";
 const FALLBACK_ICON = "?";
 const FALLBACK_LABEL = "Unknown";
 
-export function ServiceNode({ data, selected }: NodeProps<CanvasNode>) {
+const STATUS_BADGE_COLORS: Record<ContainerStatus, string> = {
+  running: "bg-green-500",
+  healthy: "bg-green-500",
+  created: "bg-yellow-400",
+  error: "bg-red-500",
+  unhealthy: "bg-red-500",
+  stopped: "bg-slate-400",
+};
+
+export function ServiceNode({ id, data, selected }: NodeProps<CanvasNode>) {
   const color = SERVICE_COLORS[data.type] ?? FALLBACK_COLOR;
   const icon = SERVICE_ICONS[data.type] ?? FALLBACK_ICON;
   const defaultLabel = SERVICE_LABELS[data.type] ?? FALLBACK_LABEL;
+  const containerStatus = useDeployStore((s) => s.nodeStatuses.get(id));
 
   return (
     <div
-      className={`min-w-[140px] rounded-lg border-2 bg-white shadow-md transition-shadow ${
+      className={`relative min-w-[140px] rounded-lg border-2 bg-white shadow-md transition-shadow ${
         selected ? "shadow-lg ring-2 ring-blue-400" : ""
       }`}
       style={{ borderColor: color }}
     >
+      {containerStatus && (
+        <span
+          className={`absolute -right-1.5 -top-1.5 z-10 h-3 w-3 rounded-full border-2 border-white transition-colors ${STATUS_BADGE_COLORS[containerStatus] ?? "bg-slate-400"}`}
+        />
+      )}
+
       <div
         className="flex items-center gap-2 rounded-t-md px-3 py-2"
         style={{ backgroundColor: color }}
