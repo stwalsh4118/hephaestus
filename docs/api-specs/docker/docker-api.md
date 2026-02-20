@@ -172,6 +172,64 @@ func (t *Translator) Translate(diagram model.Diagram) ([]docker.ContainerConfig,
 
 ---
 
+## Deploy Management
+
+Package: `backend/internal/deploy`
+
+### Types
+
+```go
+type DeployStatus string // "idle" | "deploying" | "deployed" | "tearing_down" | "error"
+
+type NodeStatus struct {
+    NodeID      string                `json:"nodeId"`
+    ContainerID string                `json:"containerId"`
+    Status      docker.ContainerStatus `json:"status"`
+}
+
+type StatusMessage struct {
+    Type         string       `json:"type"`         // "status_update"
+    DeployStatus DeployStatus `json:"deployStatus"`
+    NodeStatuses []NodeStatus `json:"nodeStatuses"`
+}
+
+type Diff struct {
+    Added     []model.DiagramNode
+    Removed   []model.DiagramNode
+    Unchanged []model.DiagramNode
+}
+```
+
+### DeploymentManager
+
+```go
+func NewDeploymentManager(orchestrator docker.Orchestrator) *DeploymentManager
+func (m *DeploymentManager) Deploy(ctx context.Context, diagram model.Diagram) error
+func (m *DeploymentManager) Teardown(ctx context.Context) error
+func (m *DeploymentManager) GetStatus(ctx context.Context) (DeployStatus, []NodeStatus, error)
+func (m *DeploymentManager) ApplyDiff(ctx context.Context, added, removed []model.DiagramNode, edges []model.DiagramEdge) error
+func (m *DeploymentManager) BuildStatusMessage(containerStatuses map[string]docker.ContainerStatus) StatusMessage
+func (m *DeploymentManager) NodeIDForContainer(containerID string) (string, bool)
+func (m *DeploymentManager) Status() DeployStatus
+func (m *DeploymentManager) LastDiagram() *model.Diagram
+func (m *DeploymentManager) UpdateLastDiagram(diagram model.Diagram)
+```
+
+### Functions
+
+```go
+func ComputeDiff(current, new []model.DiagramNode) Diff
+```
+
+### Sentinel Errors
+
+| Error | Description |
+|-------|-------------|
+| `ErrAlreadyDeploying` | Deployment already in progress |
+| `ErrNotDeployed` | No active deployment |
+
+---
+
 ## OpenAPI Spec Generator
 
 Package: `backend/internal/openapi`

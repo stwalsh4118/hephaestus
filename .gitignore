@@ -2,6 +2,9 @@
 /backend/server
 /backend/tmp/
 
+# Backend runtime data (file-based diagram storage)
+/backend/data/
+
 # Frontend local package cache
 /frontend/.pnpm-store/
 

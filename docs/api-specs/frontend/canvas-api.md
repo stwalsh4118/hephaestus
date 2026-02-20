@@ -202,3 +202,58 @@ importDiagram(json: unknown): { nodes: CanvasNode[]; edges: CanvasEdge[] }  // v
 | `rabbitmq` | `RabbitmqForm` | Virtual host input |
 
 All forms call `updateNodeConfig` on every change for immediate persistence.
+
+---
+
+## Deploy Types (`frontend/src/types/deploy.ts`)
+
+```typescript
+type DeployStatus = "idle" | "deploying" | "deployed" | "tearing_down" | "error";
+type ContainerStatus = "created" | "running" | "stopped" | "error" | "healthy" | "unhealthy";
+
+interface NodeStatus { nodeId: string; containerId: string; status: ContainerStatus; }
+interface StatusMessage { type: string; deployStatus: DeployStatus; nodeStatuses: NodeStatus[]; }
+interface DeployResponse { status: string; }
+interface DeployStatusResponse { deployStatus: DeployStatus; nodeStatuses: NodeStatus[]; }
+```
+
+## Deploy API Client (`frontend/src/lib/deploy-api.ts`)
+
+```typescript
+deployDiagram(diagram: DiagramJson): Promise<DeployResponse>     // POST /api/deploy
+teardownDiagram(): Promise<DeployResponse>                        // DELETE /api/deploy
+getDeployStatus(): Promise<DeployStatusResponse>                  // GET /api/deploy/status
+updateDeploy(diagram: DiagramJson): Promise<DeployStatusResponse> // PUT /api/deploy
+```
+
+## WebSocket Client (`frontend/src/lib/ws-client.ts`)
+
+```typescript
+connectStatusWs(onMessage: (msg: StatusMessage) => void): WebSocket  // ws://host/ws/status
+disconnectStatusWs(): void
+```
+
+## Deploy Store (`frontend/src/store/deploy-store.ts`)
+
+Zustand store managing deployment lifecycle.
+
+```typescript
+interface DeployStore {
+  deployStatus: DeployStatus;
+  nodeStatuses: Map<string, ContainerStatus>;
+  error: string | null;
+  lastDeployedDiagram: DiagramJson | null;
+  isUpdating: boolean;
+  deploy(diagram: DiagramJson): Promise<void>;
+  teardown(): Promise<void>;
+  updateDeploy(diagram: DiagramJson): Promise<void>;
+  clearError(): void;
+  reset(): void;
+}
+```
+
+## Diagram Diff (`frontend/src/lib/diagram-diff.ts`)
+
+```typescript
+hasDiagramChanges(nodes: CanvasNode[], lastDeployed: DiagramJson | null): boolean
+```

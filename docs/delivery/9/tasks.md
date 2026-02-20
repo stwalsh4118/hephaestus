@@ -8,13 +8,13 @@ This document lists all tasks associated with PBI 9.
 
 | Task ID | Name | Status | Description |
 | :------ | :--- | :----- | :---------- |
-| 9-1 | [Deploy Service — Types, State Tracker & Core Logic](./9-1.md) | Proposed | Define deploy types/interfaces; implement DeploymentManager with deploy, teardown, status, and diff logic |
-| 9-2 | [Deploy REST Endpoints](./9-2.md) | Proposed | Add POST/DELETE/GET /api/deploy handlers and wire into router |
-| 9-3 | [WebSocket Status Hub & Broadcasting](./9-3.md) | Proposed | Multi-client WebSocket hub with health-polling broadcast integration |
-| 9-4 | [Frontend API Client & Deploy Store](./9-4.md) | Proposed | Fetch wrappers for deploy endpoints, WebSocket client, Zustand deploy store |
-| 9-5 | [Deploy UI — Toolbar Buttons & Node Status Badges](./9-5.md) | Proposed | Deploy/Teardown buttons in toolbar; status indicators on canvas nodes; error feedback |
-| 9-6 | [Live Topology Updates](./9-6.md) | Proposed | Incremental deploy/undeploy when diagram changes while deployed |
-| 9-7 | [E2E CoS Test](./9-7.md) | Proposed | End-to-end verification of all PBI 9 acceptance criteria |
+| 9-1 | [Deploy Service — Types, State Tracker & Core Logic](./9-1.md) | Done | Define deploy types/interfaces; implement DeploymentManager with deploy, teardown, status, and diff logic |
+| 9-2 | [Deploy REST Endpoints](./9-2.md) | Done | Add POST/DELETE/GET /api/deploy handlers and wire into router |
+| 9-3 | [WebSocket Status Hub & Broadcasting](./9-3.md) | Done | Multi-client WebSocket hub with health-polling broadcast integration |
+| 9-4 | [Frontend API Client & Deploy Store](./9-4.md) | Done | Fetch wrappers for deploy endpoints, WebSocket client, Zustand deploy store |
+| 9-5 | [Deploy UI — Toolbar Buttons & Node Status Badges](./9-5.md) | Done | Deploy/Teardown buttons in toolbar; status indicators on canvas nodes; error feedback |
+| 9-6 | [Live Topology Updates](./9-6.md) | Done | Incremental deploy/undeploy when diagram changes while deployed |
+| 9-7 | [E2E CoS Test](./9-7.md) | Done | End-to-end verification of all PBI 9 acceptance criteria |
 
 ## Dependency Graph
 
