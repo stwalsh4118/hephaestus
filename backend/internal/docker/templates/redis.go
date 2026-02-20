@@ -13,7 +13,7 @@ type RedisTemplate struct{}
 
 // Build creates a docker.ContainerConfig for a Redis service node.
 func (t *RedisTemplate) Build(node model.DiagramNode, hostPort string, _ ...string) (docker.ContainerConfig, error) {
-	hostname := sanitizeName(node.Name)
+	hostname := SanitizeName(node.Name)
 
 	env := map[string]string{}
 

@@ -15,7 +15,7 @@ type RabbitMQTemplate struct{}
 // RabbitMQ requires two host ports: the first for AMQP (5672), the second
 // for the management UI (15672). The management port is passed via hostPorts[0].
 func (t *RabbitMQTemplate) Build(node model.DiagramNode, hostPort string, hostPorts ...string) (docker.ContainerConfig, error) {
-	hostname := sanitizeName(node.Name)
+	hostname := SanitizeName(node.Name)
 
 	env := map[string]string{}
 	vhost := "/"

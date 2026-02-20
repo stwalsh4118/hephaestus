@@ -420,9 +420,9 @@ func TestSanitizeName(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		got := sanitizeName(tc.input)
+		got := SanitizeName(tc.input)
 		if got != tc.expected {
-			t.Errorf("sanitizeName(%q) = %q, want %q", tc.input, got, tc.expected)
+			t.Errorf("SanitizeName(%q) = %q, want %q", tc.input, got, tc.expected)
 		}
 	}
 }

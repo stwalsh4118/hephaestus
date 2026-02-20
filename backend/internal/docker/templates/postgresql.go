@@ -14,7 +14,7 @@ type PostgreSQLTemplate struct{}
 
 // Build creates a docker.ContainerConfig for a PostgreSQL service node.
 func (t *PostgreSQLTemplate) Build(node model.DiagramNode, hostPort string, _ ...string) (docker.ContainerConfig, error) {
-	hostname := sanitizeName(node.Name)
+	hostname := SanitizeName(node.Name)
 
 	env := DefaultPostgresEnv()
 
@@ -39,9 +39,9 @@ func (t *PostgreSQLTemplate) Build(node model.DiagramNode, hostPort string, _ ..
 	}, nil
 }
 
-// sanitizeName converts a node name into a valid container name:
+// SanitizeName converts a node name into a valid container name:
 // lowercase, spaces replaced with hyphens, non-alphanumeric chars removed.
-func sanitizeName(name string) string {
+func SanitizeName(name string) string {
 	s := strings.ToLower(name)
 	s = strings.ReplaceAll(s, " ", "-")
 	var b strings.Builder

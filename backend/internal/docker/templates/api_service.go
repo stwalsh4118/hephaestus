@@ -31,7 +31,7 @@ type APIServiceTemplate struct{}
 // It parses endpoint config, generates an OpenAPI spec, writes it to disk,
 // and mounts it into the Prism container.
 func (t *APIServiceTemplate) Build(node model.DiagramNode, hostPort string, _ ...string) (docker.ContainerConfig, error) {
-	hostname := sanitizeName(node.Name)
+	hostname := SanitizeName(node.Name)
 
 	endpoints, err := parseEndpoints(node)
 	if err != nil {
