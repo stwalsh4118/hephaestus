@@ -57,4 +57,4 @@ Individual backend pieces exist (API, orchestration, templates, mock generation)
 
 ## Related Tasks
 
-_Tasks will be created when this PBI moves to Agreed via `/plan-pbi 9`._
+[View Tasks](./tasks.md)
