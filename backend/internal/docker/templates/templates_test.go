@@ -2,6 +2,7 @@ package templates
 
 import (
 	"encoding/json"
+	"os"
 	"testing"
 
 	"github.com/stwalsh4118/hephaestus/backend/internal/docker"
@@ -203,7 +204,7 @@ func TestRabbitMQTemplate_Build_DefaultVhost(t *testing.T) {
 	}
 }
 
-func TestAPIServiceTemplate_Build(t *testing.T) {
+func TestAPIServiceTemplate_Build_NoConfig(t *testing.T) {
 	tmpl := &APIServiceTemplate{}
 	node := model.DiagramNode{
 		ID:   "api-1",
@@ -227,6 +228,159 @@ func TestAPIServiceTemplate_Build(t *testing.T) {
 	}
 	if cfg.NetworkName != docker.NetworkName {
 		t.Errorf("expected network %q, got %q", docker.NetworkName, cfg.NetworkName)
+	}
+	// Verify Prism Cmd is set.
+	expectedCmd := []string{"mock", "-h", "0.0.0.0", "/tmp/spec.json"}
+	if len(cfg.Cmd) != len(expectedCmd) {
+		t.Fatalf("expected Cmd length %d, got %d", len(expectedCmd), len(cfg.Cmd))
+	}
+	for i, arg := range expectedCmd {
+		if cfg.Cmd[i] != arg {
+			t.Errorf("Cmd[%d] = %q, want %q", i, cfg.Cmd[i], arg)
+		}
+	}
+	// Verify a spec file volume is mounted.
+	if len(cfg.Volumes) == 0 {
+		t.Fatal("expected at least one volume mount for spec file")
+	}
+	for _, containerPath := range cfg.Volumes {
+		if containerPath != "/tmp/spec.json" {
+			t.Errorf("expected container path /tmp/spec.json, got %q", containerPath)
+		}
+	}
+
+	// Cleanup spec file.
+	for hostPath := range cfg.Volumes {
+		_ = os.Remove(hostPath)
+	}
+}
+
+func TestAPIServiceTemplate_Build_WithEndpoints(t *testing.T) {
+	tmpl := &APIServiceTemplate{}
+	node := model.DiagramNode{
+		ID:   "api-2",
+		Type: model.ServiceTypeAPIService,
+		Name: "Order Service",
+		Config: json.RawMessage(`{
+			"type": "api-service",
+			"endpoints": [
+				{"method": "GET", "path": "/orders", "responseSchema": "{\"type\":\"array\"}"},
+				{"method": "POST", "path": "/orders", "responseSchema": "{\"type\":\"object\"}"}
+			],
+			"port": 4010
+		}`),
+	}
+
+	cfg, err := tmpl.Build(node, "14010")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// Verify Cmd.
+	if len(cfg.Cmd) != 4 || cfg.Cmd[0] != "mock" {
+		t.Errorf("expected Prism mock command, got %v", cfg.Cmd)
+	}
+
+	// Verify volume mount.
+	if len(cfg.Volumes) != 1 {
+		t.Fatalf("expected 1 volume mount, got %d", len(cfg.Volumes))
+	}
+	var hostSpecPath string
+	for hp, cp := range cfg.Volumes {
+		hostSpecPath = hp
+		if cp != "/tmp/spec.json" {
+			t.Errorf("expected container path /tmp/spec.json, got %q", cp)
+		}
+	}
+
+	// Verify spec file was written and is valid JSON.
+	specData, err := os.ReadFile(hostSpecPath)
+	if err != nil {
+		t.Fatalf("failed to read spec file %q: %v", hostSpecPath, err)
+	}
+	if !json.Valid(specData) {
+		t.Error("spec file is not valid JSON")
+	}
+
+	// Verify spec contains our endpoints.
+	var spec map[string]any
+	if err := json.Unmarshal(specData, &spec); err != nil {
+		t.Fatalf("failed to parse spec: %v", err)
+	}
+	if spec["openapi"] != "3.0.0" {
+		t.Errorf("expected openapi 3.0.0, got %v", spec["openapi"])
+	}
+	paths, ok := spec["paths"].(map[string]any)
+	if !ok {
+		t.Fatal("expected paths object in spec")
+	}
+	if _, ok := paths["/orders"]; !ok {
+		t.Error("expected /orders path in spec")
+	}
+
+	// Cleanup.
+	_ = os.Remove(hostSpecPath)
+}
+
+func TestAPIServiceTemplate_Build_EmptyEndpoints(t *testing.T) {
+	tmpl := &APIServiceTemplate{}
+	node := model.DiagramNode{
+		ID:   "api-3",
+		Type: model.ServiceTypeAPIService,
+		Name: "Empty API",
+		Config: json.RawMessage(`{
+			"type": "api-service",
+			"endpoints": [],
+			"port": 4010
+		}`),
+	}
+
+	cfg, err := tmpl.Build(node, "14010")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	// Should still produce a valid config with Cmd and Volumes.
+	if len(cfg.Cmd) == 0 {
+		t.Error("expected Prism Cmd even with empty endpoints")
+	}
+	if len(cfg.Volumes) == 0 {
+		t.Error("expected volume mount even with empty endpoints")
+	}
+
+	// Verify spec is valid JSON with empty paths.
+	for hostPath := range cfg.Volumes {
+		specData, err := os.ReadFile(hostPath)
+		if err != nil {
+			t.Fatalf("failed to read spec file: %v", err)
+		}
+		var spec map[string]any
+		if err := json.Unmarshal(specData, &spec); err != nil {
+			t.Fatalf("failed to parse spec: %v", err)
+		}
+		paths, ok := spec["paths"].(map[string]any)
+		if !ok {
+			t.Fatal("expected paths object")
+		}
+		if len(paths) != 0 {
+			t.Errorf("expected 0 paths for empty endpoints, got %d", len(paths))
+		}
+		_ = os.Remove(hostPath)
+	}
+}
+
+func TestAPIServiceTemplate_Build_InvalidConfig(t *testing.T) {
+	tmpl := &APIServiceTemplate{}
+	node := model.DiagramNode{
+		ID:     "api-bad",
+		Type:   model.ServiceTypeAPIService,
+		Name:   "bad-api",
+		Config: json.RawMessage(`{invalid json`),
+	}
+
+	_, err := tmpl.Build(node, "14010")
+	if err == nil {
+		t.Fatal("expected error for invalid config JSON")
 	}
 }
 

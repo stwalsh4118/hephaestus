@@ -34,6 +34,7 @@ type Orchestrator interface {
 type ContainerConfig struct {
     Image       string            `json:"image"`
     Name        string            `json:"name"`
+    Cmd         []string          `json:"cmd,omitempty"`         // override image CMD
     Env         map[string]string `json:"env,omitempty"`
     Ports       map[string]string `json:"ports,omitempty"`       // host → container
     Volumes     map[string]string `json:"volumes,omitempty"`     // host → container
@@ -168,3 +169,29 @@ func ResolveDependencies(nodes []model.DiagramNode, edges []model.DiagramEdge) (
 ```go
 func (t *Translator) Translate(diagram model.Diagram) ([]docker.ContainerConfig, error)
 ```
+
+---
+
+## OpenAPI Spec Generator
+
+Package: `backend/internal/openapi`
+
+### Functions
+
+```go
+func GenerateSpec(endpoints []model.Endpoint, title string) ([]byte, error)
+```
+
+Converts a slice of endpoint definitions into a valid OpenAPI 3.0.0 JSON document.
+
+- Groups endpoints by path (multiple methods on the same path share a path item)
+- Validates HTTP methods (GET, POST, PUT, DELETE, PATCH)
+- Parses `responseSchema`: valid JSON object → use directly, empty → `{"type":"object"}`, invalid JSON → wrap as string example
+- Returns indented JSON bytes
+
+### Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `openAPIVersion` | `"3.0.0"` | OpenAPI specification version |
+| `contentTypeJSON` | `"application/json"` | Response content type |

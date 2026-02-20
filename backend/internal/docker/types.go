@@ -29,6 +29,7 @@ const (
 type ContainerConfig struct {
 	Image       string            `json:"image"`
 	Name        string            `json:"name"`
+	Cmd         []string          `json:"cmd,omitempty"`
 	Env         map[string]string `json:"env,omitempty"`
 	Ports       map[string]string `json:"ports,omitempty"`   // host port → container port
 	Volumes     map[string]string `json:"volumes,omitempty"` // host path → container path

@@ -292,6 +292,61 @@ func TestCreateContainer_PullsImageAndCreates(t *testing.T) {
 	}
 }
 
+func TestCreateContainer_PassesCmdToDockerConfig(t *testing.T) {
+	var createdConfig *container.Config
+
+	mock := &mockDockerAPI{
+		containerCreateFn: func(_ context.Context, config *container.Config, _ *container.HostConfig, _ *network.NetworkingConfig, _ string) (container.CreateResponse, error) {
+			createdConfig = config
+			return container.CreateResponse{ID: "ctr-cmd"}, nil
+		},
+	}
+
+	o := newOrchestratorWithAPI(mock)
+	cmd := []string{"mock", "-h", "0.0.0.0", "/tmp/spec.json"}
+	_, err := o.CreateContainer(context.Background(), ContainerConfig{
+		Image: "stoplight/prism:latest",
+		Name:  "api-service",
+		Cmd:   cmd,
+	})
+	if err != nil {
+		t.Fatalf("CreateContainer() returned error: %v", err)
+	}
+
+	if len(createdConfig.Cmd) != len(cmd) {
+		t.Fatalf("expected Cmd length %d, got %d", len(cmd), len(createdConfig.Cmd))
+	}
+	for i, arg := range cmd {
+		if createdConfig.Cmd[i] != arg {
+			t.Errorf("Cmd[%d] = %q, want %q", i, createdConfig.Cmd[i], arg)
+		}
+	}
+}
+
+func TestCreateContainer_NilCmdUsesImageDefault(t *testing.T) {
+	var createdConfig *container.Config
+
+	mock := &mockDockerAPI{
+		containerCreateFn: func(_ context.Context, config *container.Config, _ *container.HostConfig, _ *network.NetworkingConfig, _ string) (container.CreateResponse, error) {
+			createdConfig = config
+			return container.CreateResponse{ID: "ctr-nocmd"}, nil
+		},
+	}
+
+	o := newOrchestratorWithAPI(mock)
+	_, err := o.CreateContainer(context.Background(), ContainerConfig{
+		Image: "nginx:latest",
+		Name:  "web",
+	})
+	if err != nil {
+		t.Fatalf("CreateContainer() returned error: %v", err)
+	}
+
+	if createdConfig.Cmd != nil {
+		t.Errorf("expected nil Cmd for unset config, got %v", createdConfig.Cmd)
+	}
+}
+
 func TestCreateContainer_AppliesNamePrefix(t *testing.T) {
 	var createdName string
 	mock := &mockDockerAPI{
