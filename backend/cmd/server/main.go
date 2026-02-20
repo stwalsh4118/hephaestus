@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/stwalsh4118/hephaestus/backend/internal/deploy"
 	"github.com/stwalsh4118/hephaestus/backend/internal/docker"
 	"github.com/stwalsh4118/hephaestus/backend/internal/handler"
 	"github.com/stwalsh4118/hephaestus/backend/internal/middleware"
@@ -42,7 +43,6 @@ func main() {
 	// Initialize Docker orchestrator (non-fatal if Docker is unavailable).
 	// pollingCtx controls any background health polling; cancel it before teardown.
 	pollingCtx, cancelPolling := context.WithCancel(context.Background())
-	_ = pollingCtx // will be passed to StartHealthPolling when deploy flow is wired
 
 	dockerClient, dockerErr := docker.NewClient()
 	var orchestrator *docker.DockerOrchestrator
@@ -59,8 +59,24 @@ func main() {
 	diagramHandler := handler.NewDiagramHandler(store)
 	diagramHandler.RegisterRoutes(mux)
 
-	wsHandler := handler.NewWebSocketHandler()
+	statusHub := handler.NewStatusHub()
+
+	wsHandler := handler.NewWebSocketHandler(statusHub)
 	wsHandler.RegisterRoutes(mux)
+
+	// Deploy handler (requires Docker orchestrator).
+	if orchestrator != nil {
+		deployMgr := deploy.NewDeploymentManager(orchestrator)
+		deployHandler := handler.NewDeployHandler(deployMgr)
+		deployHandler.RegisterRoutes(mux)
+
+		// Start health polling with broadcast to WebSocket clients.
+		orchestrator.StartHealthPolling(pollingCtx, docker.DefaultHealthCheckInterval, func(statuses map[string]docker.ContainerStatus) {
+			msg := deployMgr.BuildStatusMessage(statuses)
+			statusHub.Broadcast(msg)
+		})
+		log.Println("deploy endpoints registered, health polling started")
+	}
 
 	server := &http.Server{
 		Addr:         ":" + port,
