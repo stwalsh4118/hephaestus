@@ -15,7 +15,7 @@ func setupWSServer(t *testing.T) *httptest.Server {
 	t.Helper()
 	t.Setenv("CORS_ORIGIN", "")
 
-	h := NewWebSocketHandler()
+	h := NewWebSocketHandler(NewStatusHub())
 	mux := http.NewServeMux()
 	h.RegisterRoutes(mux)
 

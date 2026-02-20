@@ -22,16 +22,19 @@ const (
 // WebSocketHandler handles WebSocket connections at /ws/status.
 type WebSocketHandler struct {
 	upgrader websocket.Upgrader
+	hub      *StatusHub
 }
 
 // NewWebSocketHandler creates a WebSocketHandler with origin checking.
-func NewWebSocketHandler() *WebSocketHandler {
+// If hub is nil, connections are accepted but no broadcasts are sent.
+func NewWebSocketHandler(hub *StatusHub) *WebSocketHandler {
 	origin := os.Getenv(wsCORSOriginEnv)
 	if origin == "" {
 		origin = wsDefaultOrigin
 	}
 
 	return &WebSocketHandler{
+		hub: hub,
 		upgrader: websocket.Upgrader{
 			ReadBufferSize:  wsReadBufferSize,
 			WriteBufferSize: wsWriteBufferSize,
@@ -56,7 +59,15 @@ func (h *WebSocketHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("websocket connection opened: %s", r.RemoteAddr)
 
+	// Register with hub for broadcasts.
+	if h.hub != nil {
+		h.hub.Register(conn)
+	}
+
 	defer func() {
+		if h.hub != nil {
+			h.hub.Unregister(conn)
+		}
 		if err := conn.Close(); err != nil {
 			log.Printf("websocket close error: %v", err)
 		}
