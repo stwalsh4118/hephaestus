@@ -36,7 +36,7 @@ func buildServer(t *testing.T, storageDir string) *httptest.Server {
 	diagramHandler := handler.NewDiagramHandler(store)
 	diagramHandler.RegisterRoutes(mux)
 
-	wsHandler := handler.NewWebSocketHandler()
+	wsHandler := handler.NewWebSocketHandler(handler.NewStatusHub())
 	wsHandler.RegisterRoutes(mux)
 
 	corsHandler := middleware.CORS()(mux)
